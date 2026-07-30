@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Jak Life Science · Feed & Injectables</title>
+    <meta name="description" content="Jak Life Science offers premium feed supplements and injectable solutions for animal health. Explore our range of veterinary pharmaceuticals." />
+    <meta name="keywords" content="dairy feed supplement, veterinary feed supplement, veterinary pharmaceuticals, veterinary bolus, veterinary drugs, injectable solutions, animal health products" />
+    <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+    <link rel="canonical" href="https://jaklifescience.in/product.html" />
+    <meta property="og:title" content="Products - Jak Life Science · Feed & Injectables">
+    <meta property="og:site_name" content="Jak Life Science">
+    <meta property="og:url" content="https://jaklifescience.in/product.html">
+    <meta property="og:description" content="Jak Life Science offers premium feed supplements and injectable solutions for animal health.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://res.cloudinary.com/kgqfbt78/image/upload/v1785048362/jak_logo_glujvk.jpg">
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="Jak Life Science" />
+    <meta name="twitter:title" content="Products - Jak Life Science" />
+    <meta name="twitter:description" content="Jak Life Science offers premium feed supplements and injectable solutions for animal health." />
+    <meta name="twitter:image" content="https://res.cloudinary.com/kgqfbt78/image/upload/v1785048362/jak_logo_glujvk.jpg" />
+
+    <!-- Favicons -->
+    <link href="./assets/img/fav-logo.png" rel="icon">
+    <link href="./assets/img/fav-logo.webp" rel="apple-touch-icon">
+
+    <!-- Bootstrap 5.3.0 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./assets/css/main-new.css">
+    
+    <style>
+        .error { color: red; font-size: 100%; margin-bottom: 10px; }
+        .errorsub { color: red; font-size: 100%; margin-bottom: 10px; margin-top: 5px; padding-left: 5px; }
+        .section-title { padding-bottom: 0; }
+        .top_banner { padding: 0; }
+        h1, h2, h3, h4, h5, h6 { font-family: "Albert Sans", sans-serif; }
+
+        /* Products Page Specific Styles */
+        .products-hero {
+            background: linear-gradient(135deg, #0b2b4a 0%, #1a4a6e 100%);
+            padding: 80px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .products-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(26, 127, 92, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .products-hero h1 {
+            color: #fff;
+            margin-top: 100px;
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        .products-hero h1 span {
+            color: #7fdbbe;
+        }
+        .products-hero p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.2rem;
+            max-width: 600px;
+        }
+
+        .filter-section {
+            background: #f7fafc;
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+        .filter-btn {
+            padding: 12px 32px;
+            border-radius: 40px;
+            border: 2px solid #d4e2dc;
+            background: #fff;
+            color: #1e3a5f;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        .filter-btn:hover {
+            border-color: #1a7f5c;
+            color: #1a7f5c;
+            transform: translateY(-2px);
+        }
+        .filter-btn.active {
+            background: #1a7f5c;
+            border-color: #1a7f5c;
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(26, 127, 92, 0.25);
+        }
+        .filter-btn i {
+            margin-right: 8px;
+        }
+
+        .product-grid {
+            padding: 60px 0;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 20, 30, 0.06);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            height: 100%;
+            display: none;
+        }
+        .product-card.show {
+            display: block;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px -12px rgba(26, 127, 92, 0.15);
+            border-color: rgba(26, 127, 92, 0.1);
+        }
+        .product-card-img {
+            height: 470px;
+            overflow: hidden;
+            position: relative;
+        }
+        .product-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .product-card:hover .product-card-img img {
+            transform: scale(1.05);
+        }
+        .product-card-img .category-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(26, 127, 92, 0.9);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .product-card-body {
+            padding: 24px 24px 28px;
+        }
+        .product-card-body h3 {
+            font-size: 1.3rem;
+            color: #0b2b4a;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .product-card-body .product-desc {
+            color: #4d6a8a;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .product-card-body .product-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 28px;
+            background: linear-gradient(135deg, #1a7f5c, #146b4d);
+            color: #fff;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(26, 127, 92, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+        .product-card-body .product-cta:hover {
+            transform: translateX(6px);
+            box-shadow: 0 8px 24px rgba(26, 127, 92, 0.3);
+            gap: 14px;
+            color: #fff;
+        }
+
+        .no-products {
+            text-align: center;
+            padding: 60px 20px;
+            color: #4d6a8a;
+        }
+        .no-products i {
+            font-size: 4rem;
+            color: #d4e2dc;
+            margin-bottom: 20px;
+        }
+        .no-products h3 {
+            color: #0b2b4a;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .products-hero h1 { font-size: 2.5rem; }
+            .products-hero { padding: 50px 0 40px; }
+            .filter-btn { padding: 10px 20px; font-size: 0.85rem; }
+            .product-card-img { height: 180px; }
+        }
+    </style>
+
+    <meta name="google-site-verification" content="3gvQkkv3orlV4p5shXwLZ91Ite4wdtMkKUJZbkqSrvM" />
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VQBDXR9C09"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-VQBDXR9C09');
+    </script>
+</head>
+
+<body>
+
+    <!-- ===================== NAVIGATION ===================== -->
+    <nav class="navbar navbar-expand-lg flex-wrap pt-0">
+        <div class="top_stripe w-100">
+            <div class="container">
+                <div class="row justify-content-end">
+                    <div class="col">
+                        <span>Support 24/7 - Call us on : <a href="tel:7534801113"> +91 7534801113</a></span>
+                    </div>
+                    <div class="col">
+                        <div class="top_social">
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                            <a href="#"><i class="bi bi-facebook"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="https://jaklifescience.in/">
+                <img src="https://res.cloudinary.com/kgqfbt78/image/upload/v1785048362/jak_logo_glujvk.jpg" alt="Jak Life Science Logo" style="height:50px; border-radius:50%;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent" style="justify-content: space-between;">
+                <ul class="navbar-nav mb-2 mb-lg-0 mx-auto my-0 justify-content-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><div class="nav-logo"><i class="bi bi-house-door"></i></div> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./jaklife/jaklife/about-us.html"><div class="nav-logo"><i class="bi bi-building"></i></div> About Us</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="/product.html" data-bs-toggle="dropdown">
+                            <div class="nav-logo"><i class="bi bi-box"></i></div> Products
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/product.html?filter=feed">Feed Supplements<svg width="13.6" height="14" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.3253 2.37092L13.39 7.4356L0.182315 7.4356L0.183098 10.565L13.3908 10.565L8.32609 15.6297L10.5392 17.8428L15.1394 13.2426C17.4825 10.8994 17.4825 7.10043 15.1394 4.75729L10.5391 0.15707L8.3253 2.37092Z" fill="currentColor"></path></svg></a></li>
+                            <li><a class="dropdown-item" href="/product.html?filter=injectable">Injectables <svg width="13.6" height="14" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.3253 2.37092L13.39 7.4356L0.182315 7.4356L0.183098 10.565L13.3908 10.565L8.32609 15.6297L10.5392 17.8428L15.1394 13.2426C17.4825 10.8994 17.4825 7.10043 15.1394 4.75729L10.5391 0.15707L8.3253 2.37092Z" fill="currentColor"></path></svg></a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/gallery.html"><div class="nav-logo"><i class="bi bi-images"></i></div> Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact.html"><div class="nav-logo"><i class="bi bi-envelope"></i></div> Contact</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3 me-0 justify-content-end">
+                    <a href="/contact.html" class="btn contact-btn">Contact Us</a>
+                    <div class="social-links">
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main">
+
+        <!-- ===================== PRODUCTS HERO ===================== -->
+        <section class="products-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h1>Our <span>Products</span></h1>
+                        <p>Premium feed supplements and high-efficacy injectable solutions for optimal animal health and productivity.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== FILTER SECTION ===================== -->
+        <section class="filter-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12">
+                        <div class="d-flex flex-wrap gap-3 justify-content-center">
+                            <button class="filter-btn active" data-filter="all" id="filterAll">
+                                <i class="bi bi-grid"></i> All Products
+                            </button>
+                            <button class="filter-btn" data-filter="feed" id="filterFeed">
+                                <i class="bi bi-bowl"></i> Feed Supplements
+                            </button>
+                            <button class="filter-btn" data-filter="injectable" id="filterInjectable">
+                                <i class="bi bi-syringe"></i> Injectable Solutions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== PRODUCTS GRID ===================== -->
+        <section class="product-grid">
+            <div class="container">
+                <div class="row g-4" id="productContainer">
+                    <!-- Products will be rendered here by JavaScript -->
+                </div>
+
+                <!-- No Products Message -->
+                <div id="noProducts" class="no-products" style="display: none;">
+                    <i class="bi bi-box"></i>
+                    <h3>No products found</h3>
+                    <p>Please try selecting a different category.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer-section pt-5 pb-4">
+        <div class="container">
+            <div class="row gy-5">
+                <div class="col-lg-4">
+                    <img src="https://res.cloudinary.com/kgqfbt78/image/upload/v1785048362/jak_logo_glujvk.jpg" alt="Logo" class="mb-4" style="height:60px; border-radius:50%;">
+                    <p class="footer-text">We are a top Indian veterinary pharmaceutical company, offering affordable, quality animal health products.</p>
+                    <a href="contact.html" class="footer-btn">
+                        <span class="btn-text">Get In Touch</span>
+                        <span class="icon-circle"><i class="bi bi-arrow-down"></i></span>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading">Products</h5>
+                    <div class="row">
+                        <div class="col-6">
+                            <ul class="footer-links">
+                                <li><a href="product.html?filter=feed">Feed Supplements</a></li>
+                                <li><a href="product.html?filter=injectable">Injectables</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-heading">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="footer-heading">Contact Us</h5>
+                    <p class="footer-text">CIN: U24233UP1997PLC239832</p>
+                    <p class="footer-text"><i class="bi bi-geo-alt-fill me-2"></i> Aawas Vikas, Meerut Road, Hapur, UP-245101</p>
+                    <p class="footer-text mt-3">
+                        <a href="tel:+917534801113"><i class="bi bi-telephone-fill me-2"></i> +91 7534801113</a> <br>
+                        <a href="mailto:jakremediesoffice@gmail.com"><i class="bi bi-envelope-fill me-2"></i> jakremediesoffice@gmail.com</a>
+                    </p>
+                </div>
+            </div>
+            <div class="row align-items-end gy-4">
+                <div class="col-lg-8">
+                    <div class="social-links">
+                        <a href="#"><img src="assets/new-design-img/instagram.svg" alt="Instagram"></a>
+                        <a href="#"><img src="assets/new-design-img/facebook.svg" alt="Facebook"></a>
+                        <a href="#"><img src="assets/new-design-img/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="#"><img src="assets/new-design-img/youtube.svg" alt="youtube"></a>
+                    </div>
+                    <div class="top_social justify-content-start">
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="footer-heading">Newsletter</h5>
+                    <div class="newsletter-box">
+                        <input type="email" placeholder="Email Address">
+                        <span>&#8594;</span>
+                    </div>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <p class="copyright">Copyright © 2026 All rights reserved. Jak Life Science</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="copyright"><a href="#">Privacy Policy</a> | <a href="#">Disclaimer Policy</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== SCRIPTS ===================== -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Products Data & Filter Functionality -->
+    <script>
+        // ===================== PRODUCTS ARRAY =====================
+        const products = [{
+            id: 1,
+            slug: "dp-cal-gold-5ltr",
+            name: "DP Cal Gold 5ltr",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "Premium liquid calcium for stronger bones, better milk yield, and healthier livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products19_tb8xpn.jpg",
+            details: "info.html?product=dp-cal-gold-5ltr"
+        }, {
+            id: 2,
+            slug: "bactricef-forte-4-5gm",
+            name: "Bactricef Forte 4.5gm",
+            category: "injectable",
+            tag: "Injectable",
+            shortDesc: "A broad-spectrum antibiotic injection for the effective treatment of bacterial infections in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products17_mz8jxg.jpg",
+            details: "info.html?product=bactricef-forte-4-5gm"
+        }, {
+            id: 3,
+            slug: "ok-h-liq",
+            name: "OK-H Liq",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A nutritional supplement that supports overall health, boosts immunity, and improves vitality in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products18_bc9qfj.jpg",
+            details: "info.html?product=ok-h-liq"
+        }, {
+            id: 4,
+            slug: "ph-spray",
+            name: "PH Spray",
+            category: "injectable",
+            tag: "Injectable",
+            shortDesc: "An effective spray that controls ticks, mites, and other external parasites while promoting healthy skin and coat.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products15_seq5to.jpg",
+            details: "info.html?product=ph-spray"
+        }, {
+            id: 5,
+            slug: "immuliv",
+            name: "Immuliv",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "Supports liver function, improves digestion, and enhances overall health and productivity in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products34_oswyl1.jpg",
+            details: "info.html?product=immuliv"
+        }, {
+            id: 6,
+            slug: "sapphos-vet",
+            name: "SAPPHOS Vet",
+            category: "injectable",
+            tag: "Injectable",
+            shortDesc: "A fast-acting injectable formulation that supports rapid recovery and effective treatment in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543017/products16_av8w01.jpg",
+            details: "info.html?product=sapphos-vet"
+        }, {
+            id: 7,
+            slug: "jafrol",
+            name: "Jafrol",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "An iron and vitamin supplement that helps prevent anemia, improves vitality, and supports healthy growth in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products35_ysj6e0.jpg",
+            details: "info.html?product=jafrol"
+        }, {
+            id: 8,
+            slug: "nocicam-plus-inj",
+            name: "Nocicam Plus Inj",
+            category: "injectable",
+            tag: "Injectable",
+            shortDesc: "A fast-acting analgesic and antipyretic that helps relieve pain, inflammation, and fever in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543017/products32_giau3t.jpg",
+            details: "info.html?product=nocicam-plus-inj"
+        }, {
+            id: 9,
+            slug: "4g-tab",
+            name: "4G Tab",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A broad-spectrum antiparasitic that effectively controls internal and external parasites in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products14_tfhwrp.jpg",
+            details: "info.html?product=4g-tab"
+        }, {
+            id: 10,
+            slug: "bactricef-3gm",
+            name: "Bactricef 3gm",
+            category: "injectable",
+            tag: "Injectable",
+            shortDesc: "A broad-spectrum antibiotic injection for the effective treatment of severe bacterial infections in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543017/products28_kqkyl1.jpg",
+            details: "info.html?product=bactricef-3gm"
+        }, {
+            id: 11,
+            slug: "nurojak-xl",
+            name: "Nurojak XL",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A vitamin B12 and mineral supplement that supports nerve health, energy, and overall vitality in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543016/products31_fdtegj.jpg",
+            details: "info.html?product=nurojak-xl"
+        }, {
+            id: 12,
+            slug: "2g-tab",
+            name: "2G Tab",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A broad-spectrum antiparasitic that effectively controls internal and external parasites in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543017/products33_geav7f.jpg",
+            details: "info.html?product=2g-tab"
+        }, {
+            id: 13,
+            slug: "bactricef-bolus",
+            name: "Bactricef Bolus",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A broad-spectrum cephalosporin antibiotic that helps treat a wide range of bacterial infections in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543013/products3_uzx7pp.jpg",
+            details: "info.html?product=bactricef-bolus"
+        }, {
+            id: 14,
+            slug: "uterojak",
+            name: "Uterojak",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "NSAID for pain, inflammation, and fever in animals.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543013/products20_thzhe0.jpg",
+            details: "info.html?product=uterojak"
+        }, {
+            id: 15,
+            slug: "immuliv-liver",
+            name: "Immuliv",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "Supports liver function, improves digestion, and enhances overall health and productivity in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543016/products12_ezdubw.jpg",
+            details: "info.html?product=immuliv-liver"
+        }, {
+            id: 16,
+            slug: "vamiclo-ds-bolus",
+            name: "Vamiclo DS Bolus",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "Effectively eliminates internal parasites to improve digestion, growth, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543013/products21_lvl0xr.jpg",
+            details: "info.html?product=vamiclo-ds-bolus"
+        }, {
+            id: 17,
+            slug: "jafrol-2-5kg",
+            name: "Jafrol 2.5kg",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "An iron and vitamin supplement that helps prevent anemia, improves vitality, and supports healthy growth in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543016/products30_bekcgh.jpg",
+            details: "info.html?product=jafrol-2-5kg"
+        }, {
+            id: 18,
+            slug: "sap-plus-powder",
+            name: "SAP-PLUS POWDER",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A nutritional supplement that supports faster recovery, healthy growth, and overall wellness in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543013/products1_dlopxf.jpg",
+            details: "info.html?product=sap-plus-powder"
+        }, {
+            id: 19,
+            slug: "dp-cal-gel-300gm",
+            name: "DP Cal Gel 300gm",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A highly absorbable calcium supplement that supports bone strength, milk production, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543016/products29_ucn5oq.jpg",
+            details: "info.html?product=dp-cal-gel-300gm"
+        }, {
+            id: 20,
+            slug: "dp-cal-gold-powder",
+            name: "DP Cal Gold Powder",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A nutritional supplement that helps improve milk yield, quality, and overall health in dairy animals.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543013/products4_miohxk.jpg",
+            details: "info.html?product=dp-cal-gold-powder"
+        }, {
+            id: 21,
+            slug: "vamiclo-ds-15ml",
+            name: "Vamiclo DS 15ml",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "Effectively eliminates internal parasites to improve digestion, growth, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543016/products11_fifirq.jpg",
+            details: "info.html?product=vamiclo-ds-15ml"
+        }, {
+            id: 22,
+            slug: "dp-cal-gold-5ltr-2",
+            name: "DP Cal Gold 5ltr",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A highly absorbable calcium supplement that supports bone strength, milk production, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543013/products2_ahacth.jpg",
+            details: "info.html?product=dp-cal-gold-5ltr-2"
+        }, {
+            id: 23,
+            slug: "ch-jakmin-forte-5kg",
+            name: "Ch. Jakmin Forte 5kg",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A balanced mineral supplement that supports growth, fertility, immunity, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543016/products9_fl8q0p.jpg",
+            details: "info.html?product=ch-jakmin-forte-5kg"
+        }, {
+            id: 24,
+            slug: "dp-cal-gold-5ltr-3",
+            name: "DP Cal Gold 5ltr",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A highly absorbable calcium supplement that supports bone strength, milk production, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543014/products25_txga6c.jpg",
+            details: "info.html?product=dp-cal-gold-5ltr-3"
+        }, {
+            id: 25,
+            slug: "ch-jakmin-forte-1kg",
+            name: "Ch. Jakmin Forte 1kg",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A balanced mineral supplement that supports growth, fertility, immunity, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543015/products8_chp0mv.jpg",
+            details: "info.html?product=ch-jakmin-forte-1kg"
+        }, {
+            id: 26,
+            slug: "nurojak-syrup",
+            name: "Nurojak+ Syrup",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "Supports nerve health, boosts energy, and promotes overall health and productivity in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543014/products24_doyzhh.jpg",
+            details: "info.html?product=nurojak-syrup"
+        }, {
+            id: 27,
+            slug: "ok-h-500ml",
+            name: "OK-H 500ml",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A nutritional supplement that supports faster recovery, healthy growth, and overall wellness in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543015/products10_ubbfzb.jpg",
+            details: "info.html?product=ok-h-500ml"
+        }, {
+            id: 28,
+            slug: "rumijak-bolus",
+            name: "Rumijak Bolus",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "Stimulates appetite, improves feed intake, and supports healthy growth and recovery in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543014/products5_otgf82.jpg",
+            details: "info.html?product=rumijak-bolus"
+        }, {
+            id: 29,
+            slug: "dp-cal-gold-20ltr",
+            name: "DP Cal Gold 20ltr",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A highly absorbable calcium supplement that supports bone strength, milk production, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543015/products7_tudvnz.jpg",
+            details: "info.html?product=dp-cal-gold-20ltr"
+        }, {
+            id: 30,
+            slug: "dp-cal-powder",
+            name: "DP Cal Powder",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A highly absorbable calcium supplement that supports bone strength, milk production, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543014/products22_xli5y4.jpg",
+            details: "info.html?product=dp-cal-powder"
+        }, {
+            id: 31,
+            slug: "cystonil-powder",
+            name: "Cystonil Powder",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "Helps support urinary tract health and promotes faster recovery in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543015/products27_lzomug.jpg",
+            details: "info.html?product=cystonil-powder"
+        }, {
+            id: 32,
+            slug: "uterojak-900ml",
+            name: "Uterojak 900ml",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "Supports uterine health, promotes faster recovery after calving, and improves reproductive performance in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543014/products23_a0kvx1.jpg",
+            details: "info.html?product=uterojak-900ml"
+        }, {
+            id: 33,
+            slug: "ok-h-300ml",
+            name: "OK-H 300ml",
+            category: "feed",
+            tag: "Feed Supplement",
+            shortDesc: "A nutritional supplement that supports faster recovery, healthy growth, and overall wellness in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543015/products26_kxsdu7.jpg",
+            details: "info.html?product=ok-h-300ml"
+        }];
+
+        // ===================== RENDER PRODUCTS =====================
+        function renderProducts(category) {
+            const container = $('#productContainer');
+            const noProducts = $('#noProducts');
+            
+            // Clear container
+            container.empty();
+            
+            // Filter products
+            let filteredProducts = products;
+            if (category !== 'all') {
+                filteredProducts = products.filter(p => p.category === category);
+            }
+            
+            // Show/hide no products message
+            if (filteredProducts.length === 0) {
+                noProducts.show();
+                return;
+            } else {
+                noProducts.hide();
+            }
+            
+            // Render each product
+            filteredProducts.forEach(product => {
+                const productHtml = `
+                    <div class="col-lg-4 col-md-6 product-item" data-category="${product.category}">
+                        <div class="product-card show">
+                            <div class="product-card-img">
+                                <img src="${product.img}" alt="${product.name}">
+                                <span class="category-badge">${product.tag}</span>
+                            </div>
+                            <div class="product-card-body">
+                                <h3>${product.name}</h3>
+                                <p class="product-desc">${product.shortDesc}</p>
+                                <a href="${product.details}" class="product-cta">Learn More <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.append(productHtml);
+            });
+        }
+
+        // ===================== FILTER FUNCTIONALITY =====================
+        $(document).ready(function() {
+            // Get filter from URL parameter
+            function getFilterFromURL() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('filter');
+            }
+
+            // Set active filter based on URL
+            const filterParam = getFilterFromURL();
+            if (filterParam === 'feed') {
+                $('#filterFeed').addClass('active').siblings().removeClass('active');
+                renderProducts('feed');
+            } else if (filterParam === 'injectable') {
+                $('#filterInjectable').addClass('active').siblings().removeClass('active');
+                renderProducts('injectable');
+            } else {
+                $('#filterAll').addClass('active').siblings().removeClass('active');
+                renderProducts('all');
+            }
+
+            // Filter button clicks
+            $('#filterAll').click(function() {
+                $(this).addClass('active').siblings().removeClass('active');
+                renderProducts('all');
+                const url = new URL(window.location);
+                url.searchParams.delete('filter');
+                window.history.pushState({}, '', url);
+            });
+
+            $('#filterFeed').click(function() {
+                $(this).addClass('active').siblings().removeClass('active');
+                renderProducts('feed');
+                const url = new URL(window.location);
+                url.searchParams.set('filter', 'feed');
+                window.history.pushState({}, '', url);
+            });
+
+            $('#filterInjectable').click(function() {
+                $(this).addClass('active').siblings().removeClass('active');
+                renderProducts('injectable');
+                const url = new URL(window.location);
+                url.searchParams.set('filter', 'injectable');
+                window.history.pushState({}, '', url);
+            });
+        });
+    </script>
+
+</body>
+</html>
