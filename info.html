@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details - Jak Life Science</title>
     <meta name="description" content="Product details for Jak Life Science veterinary products." />
-    
+
     <!-- Favicons -->
     <link href="" rel="icon">
     <link href="" rel="apple-touch-icon">
@@ -15,13 +15,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./assets/css/main-new.css">
-    
+
     <style>
         .error { color: red; font-size: 100%; margin-bottom: 10px; }
         .errorsub { color: red; font-size: 100%; margin-bottom: 10px; margin-top: 5px; padding-left: 5px; }
@@ -196,7 +196,7 @@
     </style>
 
     <meta name="google-site-verification" content="3gvQkkv3orlV4p5shXwLZ91Ite4wdtMkKUJZbkqSrvM" />
-    
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VQBDXR9C09"></script>
     <script>
@@ -436,7 +436,7 @@
             tag: "Feed Supplement",
             icon: "fa-bowl-food",
             shortDesc: "Supports liver function, improves digestion, and enhances overall health and productivity in livestock.",
-            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products34_oswyl1.jpg",
+            i            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products34_oswyl1.jpg",
             details: "info.html?product=immuliv"
         }, {
             id: 6,
@@ -744,7 +744,7 @@
 
             // Render product detail
             const container = $('#productDetailContainer');
-            
+
             // Additional specs for detail page (you can customize these per product)
             const extraSpecs = [
                 "Veterinarian approved formulation",
@@ -787,3 +787,1210 @@
 
 </body>
 </html>
+Bahut badhiya! Aapne ek solid product detail page banaya hai. Ab isme dosage information add karte hain taaki user product search karke species (Cow/Buffalo/Horse/Camel) aur age group (Adult/Grower/Child/Calf) ke hisaab se daily usage dekh sake.
+
+Main aapko poora modified HTML code de raha hoon jisme:
+
+Products array mein har product ke liye dosage object add kiya gaya hai.
+
+UI mein ek naya section add kiya gaya hai jo dosage table dikhayega.
+
+Search/filter ka feature nahi hai (kyunki aapne URL parameter se product fetch kiya hai), lekin agar aapko search chahiye toh main alag se bata dunga.
+
+🔧 Changes Summary
+Change	Description
+dosage field in products	Har product ke liye species-wise dosage data
+renderDosageTable() function	Dosage data ko HTML table mein convert karta hai
+UI section	Product info ke neeche "Dosage Guide" section add kiya
+Responsive table	Mobile-friendly dosage table
+✅ Modified HTML Code (Full)
+html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Jak Life Science</title>
+    <meta name="description" content="Product details for Jak Life Science veterinary products." />
+
+    <!-- Bootstrap 5.3.0 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./assets/css/main-new.css">
+
+    <style>
+        .error { color: red; font-size: 100%; margin-bottom: 10px; }
+        .errorsub { color: red; font-size: 100%; margin-bottom: 10px; margin-top: 5px; padding-left: 5px; }
+        .section-title { padding-bottom: 0; }
+        .top_banner { padding: 0; }
+        h1, h2, h3, h4, h5, h6 { font-family: "Albert Sans", sans-serif; }
+
+        .product-detail-hero {
+            background: linear-gradient(135deg, #0b2b4a 0%, #1a4a6e 100%);
+            padding: 80px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .product-detail-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(26, 127, 92, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .product-detail-hero h1 {
+            color: #fff;
+            margin-top: 100px;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+        .product-detail-hero h1 span {
+            color: #7fdbbe;
+        }
+        .product-detail-hero .breadcrumb {
+            background: transparent;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+        .product-detail-hero .breadcrumb a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+        }
+        .product-detail-hero .breadcrumb a:hover {
+            color: #7fdbbe;
+        }
+        .product-detail-hero .breadcrumb .active {
+            color: #7fdbbe;
+        }
+
+        .product-detail-section {
+            padding: 60px 0;
+            background: #f7fafc;
+        }
+        .product-detail-card {
+            background: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px -12px rgba(0, 20, 30, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+        .product-detail-card .product-image {
+            height: 800px;
+            overflow: hidden;
+        }
+        .product-detail-card .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-detail-card .product-info {
+            padding: 40px 40px 50px;
+        }
+        .product-detail-card .product-info .badge-category {
+            display: inline-block;
+            background: rgba(26, 127, 92, 0.1);
+            color: #1a7f5c;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+        .product-detail-card .product-info h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0b2b4a;
+            margin-bottom: 16px;
+        }
+        .product-detail-card .product-info .description {
+            color: #4d6a8a;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+        .product-detail-card .product-info .specs-title {
+            font-weight: 700;
+            color: #0b2b4a;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+        .product-detail-card .product-info .specs-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+        }
+        .product-detail-card .product-info .specs-list li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+            font-size: 1rem;
+            color: #1e3a5f;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        .product-detail-card .product-info .specs-list li:last-child {
+            border-bottom: none;
+        }
+        .product-detail-card .product-info .specs-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #1a7f5c;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .product-detail-card .product-info .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #1a7f5c, #146b4d);
+            color: #fff;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(26, 127, 92, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+        .product-detail-card .product-info .back-btn:hover {
+            transform: translateX(-6px);
+            box-shadow: 0 8px 24px rgba(26, 127, 92, 0.3);
+            gap: 16px;
+            color: #fff;
+        }
+
+        /* ========== NEW: DOSAGE TABLE STYLES ========== */
+        .dosage-section {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid rgba(0,0,0,0.06);
+        }
+        .dosage-section h4 {
+            font-weight: 700;
+            color: #0b2b4a;
+            margin-bottom: 16px;
+            font-size: 1.3rem;
+        }
+        .dosage-section h4 i {
+            color: #1a7f5c;
+            margin-right: 8px;
+        }
+        .dosage-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .dosage-table thead {
+            background: #0b2b4a;
+            color: #fff;
+        }
+        .dosage-table thead th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+        }
+        .dosage-table tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #eef3f7;
+            color: #1e3a5f;
+        }
+        .dosage-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .dosage-table tbody tr:hover {
+            background: #f7fafc;
+        }
+        .dosage-table .species-icon {
+            font-size: 1.2rem;
+            margin-right: 6px;
+        }
+        .dosage-note {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #6a7e9c;
+            background: #f0f5f9;
+            padding: 10px 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dosage-note i {
+            color: #1a7f5c;
+            font-size: 1.1rem;
+        }
+
+        .not-found {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .not-found i {
+            font-size: 5rem;
+            color: #d4e2dc;
+            margin-bottom: 20px;
+        }
+        .not-found h2 {
+            color: #0b2b4a;
+            margin-bottom: 10px;
+        }
+        .not-found p {
+            color: #4d6a8a;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-hero h1 { font-size: 2.2rem; margin-top: 60px; }
+            .product-detail-hero { padding: 50px 0 40px; }
+            .product-detail-card .product-image { height: 250px; }
+            .product-detail-card .product-info { padding: 25px 20px 30px; }
+            .product-detail-card .product-info h2 { font-size: 1.6rem; }
+            .dosage-table { font-size: 0.82rem; }
+            .dosage-table thead th,
+            .dosage-table tbody td { padding: 8px 10px; }
+        }
+    </style>
+
+    <meta name="google-site-verification" content="3gvQkkv3orlV4p5shXwLZ91Ite4wdtMkKUJZbkqSrvM" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VQBDXR9C09"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-VQBDXR9C09');
+    </script>
+</head>
+
+<body>
+
+    <!-- ===================== NAVIGATION ===================== -->
+    <nav class="navbar navbar-expand-lg flex-wrap pt-0">
+        <div class="top_stripe w-100">
+            <div class="container">
+                <div class="row justify-content-end">
+                    <div class="col">
+                        <span>Support 24/7 - Call us on : <a href="tel:7534801113"> +91 7534801113</a></span>
+                    </div>
+                    <div class="col">
+                        <div class="top_social">
+                            <a href="#"><i class="bi bi-instagram"></i></a>
+                            <a href="#"><i class="bi bi-facebook"></i></a>
+                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#"><i class="bi bi-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="https://jaklifescience.in/">
+                <img src="https://res.cloudinary.com/kgqfbt78/image/upload/v1785048362/jak_logo_glujvk.jpg" alt="Jak Life Science Logo" style="height:50px; border-radius:50%;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent" style="justify-content: space-between;">
+                <ul class="navbar-nav mb-2 mb-lg-0 mx-auto my-0 justify-content-center">
+                    <li class="nav-item"><a class="nav-link" href="/index.html"><div class="nav-logo"><i class="bi bi-house-door"></i></div> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./jaklife/jaklife/about-us.html"><div class="nav-logo"><i class="bi bi-building"></i></div> About Us</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/product.html" data-bs-toggle="dropdown">
+                            <div class="nav-logo"><i class="bi bi-box"></i></div> Products
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/product.html?filter=feed">Feed Supplements<svg width="13.6" height="14" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.3253 2.37092L13.39 7.4356L0.182315 7.4356L0.183098 10.565L13.3908 10.565L8.32609 15.6297L10.5392 17.8428L15.1394 13.2426C17.4825 10.8994 17.4825 7.10043 15.1394 4.75729L10.5391 0.15707L8.3253 2.37092Z" fill="currentColor"></path></svg></a></li>
+                            <li><a class="dropdown-item" href="/product.html?filter=injectable">Injectables <svg width="13.6" height="14" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.3253 2.37092L13.39 7.4356L0.182315 7.4356L0.183098 10.565L13.3908 10.565L8.32609 15.6297L10.5392 17.8428L15.1394 13.2426C17.4825 10.8994 17.4825 7.10043 15.1394 4.75729L10.5391 0.15707L8.3253 2.37092Z" fill="currentColor"></path></svg></a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/gallery.html"><div class="nav-logo"><i class="bi bi-images"></i></div> Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact.html"><div class="nav-logo"><i class="bi bi-envelope"></i></div> Contact</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3 me-0 justify-content-end">
+                    <a href="contact.html" class="btn contact-btn">Contact Us</a>
+                    <div class="social-links">
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main">
+
+        <!-- ===================== PRODUCT DETAIL HERO ===================== -->
+        <section class="product-detail-hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="https://jaklifescience.in/">Home</a></li>
+                                <li class="breadcrumb-item"><a href="product.html">Products</a></li>
+                                <li class="breadcrumb-item active" id="breadcrumbProduct">Product Details</li>
+                            </ol>
+                        </nav>
+                        <h1>Product <span>Details</span></h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== PRODUCT DETAIL CONTENT ===================== -->
+        <section class="product-detail-section">
+            <div class="container">
+                <div id="productDetailContainer">
+                    <!-- Product will be rendered here by JavaScript -->
+                </div>
+
+                <!-- Not Found -->
+                <div id="notFound" class="not-found" style="display: none;">
+                    <i class="bi bi-box"></i>
+                    <h2>Product Not Found</h2>
+                    <p>The product you're looking for doesn't exist or has been removed.</p>
+                    <a href="product.html" class="btn btn-primary rounded-pill px-4">View All Products</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer-section pt-5 pb-4">
+        <div class="container">
+            <div class="row gy-5">
+                <div class="col-lg-4">
+                    <img src="https://res.cloudinary.com/kgqfbt78/image/upload/v1785048362/jak_logo_glujvk.jpg" alt="Logo" class="mb-4" style="height:60px; border-radius:50%;">
+                    <p class="footer-text">We are a top Indian veterinary pharmaceutical company, offering affordable, quality animal health products.</p>
+                    <a href="contact.html" class="footer-btn">
+                        <span class="btn-text">Get In Touch</span>
+                        <span class="icon-circle"><i class="bi bi-arrow-down"></i></span>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading">Products</h5>
+                    <div class="row">
+                        <div class="col-6">
+                            <ul class="footer-links">
+                                <li><a href="product.html?filter=feed">Feed Supplements</a></li>
+                                <li><a href="product.html?filter=injectable">Injectables</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-heading">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="footer-heading">Contact Us</h5>
+                    <p class="footer-text">CIN: U24233UP1997PLC239832</p>
+                    <p class="footer-text"><i class="bi bi-geo-alt-fill me-2"></i> Aawas Vikas, Meerut Road, Hapur, UP-245101</p>
+                    <p class="footer-text mt-3">
+                        <a href="tel:+917534801113"><i class="bi bi-telephone-fill me-2"></i> +91 7534801113</a> <br>
+                        <a href="mailto:jakremediesoffice@gmail.com"><i class="bi bi-envelope-fill me-2"></i> jakremediesoffice@gmail.com</a>
+                    </p>
+                </div>
+            </div>
+            <div class="row align-items-end gy-4">
+                <div class="col-lg-8">
+                    <div class="social-links">
+                        <a href="#"><img src="assets/new-design-img/instagram.svg" alt="Instagram"></a>
+                        <a href="#"><img src="assets/new-design-img/facebook.svg" alt="Facebook"></a>
+                        <a href="#"><img src="assets/new-design-img/linkedin.svg" alt="LinkedIn"></a>
+                        <a href="#"><img src="assets/new-design-img/youtube.svg" alt="youtube"></a>
+                    </div>
+                    <div class="top_social justify-content-start">
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-linkedin"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="footer-heading">Newsletter</h5>
+                    <div class="newsletter-box">
+                        <input type="email" placeholder="Email Address">
+                        <span>&#8594;</span>
+                    </div>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <p class="copyright">Copyright © 2026 All rights reserved. Jak Life Science</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="copyright"><a href="#">Privacy Policy</a> | <a href="#">Disclaimer Policy</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== SCRIPTS ===================== -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // ===================== PRODUCTS ARRAY WITH DOSAGE DATA =====================
+        const products = [{
+            id: 1,
+            slug: "dp-cal-gold-5ltr",
+            name: "DP Cal Gold 5ltr",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-seedling",
+            shortDesc: "Premium liquid calcium for stronger bones, better milk yield, and healthier livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products19_tb8xpn.jpg",
+            details: "info.html?product=dp-cal-gold-5ltr",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "50-80 ml/day", grower: "30-50 ml/day", child: "15-25 ml/day", extra: "Pregnant: 60-100 ml/day" },
+                    { name: "Buffalo", icon: "🐃", adult: "50-80 ml/day", grower: "30-50 ml/day", child: "15-25 ml/day", extra: "Pregnant: 60-100 ml/day" },
+                    { name: "Horse", icon: "🐴", adult: "40-70 ml/day", grower: "25-40 ml/day", child: "10-20 ml/day", extra: "Performance: 80-100 ml" },
+                    { name: "Camel", icon: "🐫", adult: "40-70 ml/day", grower: "20-40 ml/day", child: "10-15 ml/day", extra: "Lactating: 70-90 ml" }
+                ],
+                note: "Mix with feed or administer orally. Shake well before use."
+            }
+        }, {
+            id: 2,
+            slug: "bactricef-forte-4-5gm",
+            name: "Bactricef Forte 4.5gm",
+            category: "injectable",
+            tag: "Injectable",
+            icon: "fa-syringe",
+            shortDesc: "A broad-spectrum antibiotic injection for the effective treatment of bacterial infections in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products17_mz8jxg.jpg",
+            details: "info.html?product=bactricef-forte-4-5gm",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "1 vial / 450 kg BW", grower: "As per BW", child: "As per BW", extra: "Repeat after 48h if needed" },
+                    { name: "Buffalo", icon: "🐃", adult: "1 vial / 450 kg BW", grower: "As per BW", child: "As per BW", extra: "Repeat after 48h if needed" },
+                    { name: "Horse", icon: "🐴", adult: "1 vial / 450 kg BW", grower: "As per BW", child: "As per BW", extra: "IM or SC injection" },
+                    { name: "Camel", icon: "🐫", adult: "1 vial / 450 kg BW", grower: "As per BW", child: "As per BW", extra: "Use with vet supervision" }
+                ],
+                note: "Strictly veterinary use only. Administer as per body weight under vet supervision."
+            }
+        }, {
+            id: 3,
+            slug: "ok-h-liq",
+            name: "OK-H Liq",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-flask",
+            shortDesc: "A nutritional supplement that supports overall health, boosts immunity, and improves vitality in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products18_bc9qfj.jpg",
+            details: "info.html?product=ok-h-liq",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "30-50 ml/day", grower: "15-25 ml/day", child: "5-10 ml/day", extra: "Post-recovery: 40 ml" },
+                    { name: "Buffalo", icon: "🐃", adult: "30-50 ml/day", grower: "15-25 ml/day", child: "5-10 ml/day", extra: "Post-recovery: 40 ml" },
+                    { name: "Horse", icon: "🐴", adult: "25-40 ml/day", grower: "15-20 ml/day", child: "5-8 ml/day", extra: "Athletic: 50 ml" },
+                    { name: "Camel", icon: "🐫", adult: "20-40 ml/day", grower: "10-20 ml/day", child: "5-8 ml/day", extra: "During travel: 30 ml" }
+                ],
+                note: "Mix with drinking water or feed. Use for 7-14 days for best results."
+            }
+        }, {
+            id: 4,
+            slug: "ph-spray",
+            name: "PH Spray",
+            category: "injectable",
+            tag: "Injectable",
+            icon: "fa-syringe",
+            shortDesc: "An effective spray that controls ticks, mites, and other external parasites while promoting healthy skin and coat.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products15_seq5to.jpg",
+            details: "info.html?product=ph-spray",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "Spray 2-3 times/week", grower: "Spray 1-2 times/week", child: "Spray 1 time/week", extra: "Avoid eyes & mouth" },
+                    { name: "Buffalo", icon: "🐃", adult: "Spray 2-3 times/week", grower: "Spray 1-2 times/week", child: "Spray 1 time/week", extra: "Avoid eyes & mouth" },
+                    { name: "Horse", icon: "🐴", adult: "Spray 2 times/week", grower: "Spray 1-2 times/week", child: "Spray 1 time/week", extra: "Use with grooming" },
+                    { name: "Camel", icon: "🐫", adult: "Spray 1-2 times/week", grower: "Spray 1 time/week", child: "Spray 1 time/10 days", extra: "Test on small area first" }
+                ],
+                note: "Shake well before use. Apply from a distance of 15-20 cm. Do not spray on wounds."
+            }
+        }, {
+            id: 5,
+            slug: "immuliv",
+            name: "Immuliv",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-bowl-food",
+            shortDesc: "Supports liver function, improves digestion, and enhances overall health and productivity in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products34_oswyl1.jpg",
+            details: "info.html?product=immuliv",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "30-50 gm/day", grower: "15-25 gm/day", child: "5-10 gm/day", extra: "Liver issues: 50-70 gm" },
+                    { name: "Buffalo", icon: "🐃", adult: "30-50 gm/day", grower: "15-25 gm/day", child: "5-10 gm/day", extra: "Liver issues: 50-70 gm" },
+                    { name: "Horse", icon: "🐴", adult: "20-40 gm/day", grower: "10-20 gm/day", child: "5-8 gm/day", extra: "Post-illness: 40 gm" },
+                    { name: "Camel", icon: "🐫", adult: "20-35 gm/day", grower: "10-15 gm/day", child: "4-6 gm/day", extra: "Digestion support: 30 gm" }
+                ],
+                note: "Mix with feed daily. For chronic liver conditions, consult veterinarian."
+            }
+        }, {
+            id: 6,
+            slug: "sapphos-vet",
+            name: "SAPPHOS Vet",
+            category: "injectable",
+            tag: "Injectable",
+            icon: "fa-syringe",
+            shortDesc: "A fast-acting injectable formulation that supports rapid recovery and effective treatment in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543017/products16_av8w01.jpg",
+            details: "info.html?product=sapphos-vet",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "10-15 ml / 100 kg BW", grower: "As per BW", child: "As per BW", extra: "Slow IV or IM injection" },
+                    { name: "Buffalo", icon: "🐃", adult: "10-15 ml / 100 kg BW", grower: "As per BW", child: "As per BW", extra: "Slow IV or IM injection" },
+                    { name: "Horse", icon: "🐴", adult: "8-12 ml / 100 kg BW", grower: "As per BW", child: "As per BW", extra: "IM only" },
+                    { name: "Camel", icon: "🐫", adult: "8-10 ml / 100 kg BW", grower: "As per BW", child: "As per BW", extra: "Vet supervision mandatory" }
+                ],
+                note: "For intravenous or intramuscular use only. Use within 24 hours of reconstitution."
+            }
+        }, {
+            id: 7,
+            slug: "jafrol",
+            name: "Jafrol",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "An iron and vitamin supplement that helps prevent anemia, improves vitality, and supports healthy growth in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products35_ysj6e0.jpg",
+            details: "info.html?product=jafrol",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "30-50 gm/day", grower: "15-25 gm/day", child: "10-15 gm/day", extra: "Pregnant: 50-70 gm" },
+                    { name: "Buffalo", icon: "🐃", adult: "30-50 gm/day", grower: "15-25 gm/day", child: "10-15 gm/day", extra: "Pregnant: 50-70 gm" },
+                    { name: "Horse", icon: "🐴", adult: "25-40 gm/day", grower: "15-20 gm/day", child: "8-12 gm/day", extra: "Athletic: 50 gm" },
+                    { name: "Camel", icon: "🐫", adult: "20-35 gm/day", grower: "10-20 gm/day", child: "5-10 gm/day", extra: "Long travel: 40 gm" }
+                ],
+                note: "Mix with feed. For anemia treatment, use higher dose as per vet advice."
+            }
+        }, {
+            id: 8,
+            slug: "nocicam-plus-inj",
+            name: "Nocicam Plus Inj",
+            category: "injectable",
+            tag: "Injectable",
+            icon: "fa-syringe",
+            shortDesc: "A fast-acting analgesic and antipyretic that helps relieve pain, inflammation, and fever in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543017/products32_giau3t.jpg",
+            details: "info.html?product=nocicam-plus-inj",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "5-10 ml / 100 kg BW", grower: "As per BW", child: "As per BW", extra: "IM or slow IV" },
+                    { name: "Buffalo", icon: "🐃", adult: "5-10 ml / 100 kg BW", grower: "As per BW", child: "As per BW", extra: "IM or slow IV" },
+                    { name: "Horse", icon: "🐴", adult: "4-8 ml / 100 kg BW", grower: "As per BW", child: "As per BW", extra: "IM only" },
+                    { name: "Camel", icon: "🐫", adult: "4-6 ml / 100 kg BW", grower: "As per BW", child: "As per BW", extra: "Vet supervision required" }
+                ],
+                note: "Use with caution in animals with renal impairment. Not for repeated use without vet advice."
+            }
+        }, {
+            id: 9,
+            slug: "4g-tab",
+            name: "4G Tab",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A broad-spectrum antiparasitic that effectively controls internal and external parasites in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543018/products14_tfhwrp.jpg",
+            details: "info.html?product=4g-tab",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "1 tab / 50 kg BW", grower: "1/2 tab / 25 kg BW", child: "1/4 tab / 12 kg BW", extra: "Repeat after 21 days" },
+                    { name: "Buffalo", icon: "🐃", adult: "1 tab / 50 kg BW", grower: "1/2 tab / 25 kg BW", child: "1/4 tab / 12 kg BW", extra: "Repeat after 21 days" },
+                    { name: "Horse", icon: "🐴", adult: "1 tab / 50 kg BW", grower: "1/2 tab / 25 kg BW", child: "1/4 tab / 15 kg BW", extra: "Deworming schedule" },
+                    { name: "Camel", icon: "🐫", adult: "1 tab / 50 kg BW", grower: "1/2 tab / 30 kg BW", child: "1/4 tab / 15 kg BW", extra: "Seasonal deworming" }
+                ],
+                note: "Administer orally. Best given on empty stomach for better absorption."
+            }
+        }, {
+            id: 10,
+            slug: "bactricef-3gm",
+            name: "Bactricef 3gm",
+            category: "injectable",
+            tag: "Injectable",
+            icon: "fa-syringe",
+            shortDesc: "A broad-spectrum antibiotic injection for the effective treatment of severe bacterial infections in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543017/products28_kqkyl1.jpg",
+            details: "info.html?product=bactricef-3gm",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "1 vial / 300 kg BW", grower: "As per BW", child: "As per BW", extra: "Repeat after 48h if needed" },
+                    { name: "Buffalo", icon: "🐃", adult: "1 vial / 300 kg BW", grower: "As per BW", child: "As per BW", extra: "Repeat after 48h if needed" },
+                    { name: "Horse", icon: "🐴", adult: "1 vial / 300 kg BW", grower: "As per BW", child: "As per BW", extra: "IM or SC" },
+                    { name: "Camel", icon: "🐫", adult: "1 vial / 300 kg BW", grower: "As per BW", child: "As per BW", extra: "Vet supervision mandatory" }
+                ],
+                note: "Strictly veterinary use. Do not use in animals with known cephalosporin allergy."
+            }
+        }, {
+            id: 11,
+            slug: "nurojak-xl",
+            name: "Nurojak XL",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A vitamin B12 and mineral supplement that supports nerve health, energy, and overall vitality in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543016/products31_fdtegj.jpg",
+            details: "info.html?product=nurojak-xl",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "20-30 ml/day", grower: "10-15 ml/day", child: "5-8 ml/day", extra: "Nerve issues: 40 ml" },
+                    { name: "Buffalo", icon: "🐃", adult: "20-30 ml/day", grower: "10-15 ml/day", child: "5-8 ml/day", extra: "Nerve issues: 40 ml" },
+                    { name: "Horse", icon: "🐴", adult: "15-25 ml/day", grower: "8-12 ml/day", child: "4-6 ml/day", extra: "Performance: 30 ml" },
+                    { name: "Camel", icon: "🐫", adult: "15-20 ml/day", grower: "8-10 ml/day", child: "3-5 ml/day", extra: "Travel fatigue: 25 ml" }
+                ],
+                note: "Mix with feed or administer orally. For severe deficiencies, consult vet for higher dose."
+            }
+        }, {
+            id: 12,
+            slug: "2g-tab",
+            name: "2G Tab",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A broad-spectrum antiparasitic that effectively controls internal and external parasites in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543017/products33_geav7f.jpg",
+            details: "info.html?product=2g-tab",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "1 tab / 100 kg BW", grower: "1/2 tab / 50 kg BW", child: "1/4 tab / 25 kg BW", extra: "Repeat after 21 days" },
+                    { name: "Buffalo", icon: "🐃", adult: "1 tab / 100 kg BW", grower: "1/2 tab / 50 kg BW", child: "1/4 tab / 25 kg BW", extra: "Repeat after 21 days" },
+                    { name: "Horse", icon: "🐴", adult: "1 tab / 100 kg BW", grower: "1/2 tab / 50 kg BW", child: "1/4 tab / 25 kg BW", extra: "Deworming schedule" },
+                    { name: "Camel", icon: "🐫", adult: "1 tab / 100 kg BW", grower: "1/2 tab / 50 kg BW", child: "1/4 tab / 25 kg BW", extra: "Seasonal deworming" }
+                ],
+                note: "Administer orally. Best given on empty stomach for better absorption."
+            }
+        }, {
+            id: 13,
+            slug: "bactricef-bolus",
+            name: "Bactricef Bolus",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A broad-spectrum cephalosporin antibiotic that helps treat a wide range of bacterial infections in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543013/products3_uzx7pp.jpg",
+            details: "info.html?product=bactricef-bolus",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "1 bolus / 300 kg BW", grower: "As per BW", child: "As per BW", extra: "Repeat after 24h if needed" },
+                    { name: "Buffalo", icon: "🐃", adult: "1 bolus / 300 kg BW", grower: "As per BW", child: "As per BW", extra: "Repeat after 24h if needed" },
+                    { name: "Horse", icon: "🐴", adult: "1 bolus / 300 kg BW", grower: "As per BW", child: "As per BW", extra: "Oral administration" },
+                    { name: "Camel", icon: "🐫", adult: "1 bolus / 300 kg BW", grower: "As per BW", child: "As per BW", extra: "Vet supervision required" }
+                ],
+                note: "Administer orally with water. Use as per prescription."
+            }
+        }, {
+            id: 14,
+            slug: "uterojak",
+            name: "Uterojak",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "NSAID for pain, inflammation, and fever in animals.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543013/products20_thzhe0.jpg",
+            details: "info.html?product=uterojak",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "30-50 ml/day", grower: "15-25 ml/day", child: "5-10 ml/day", extra: "Post-calving: 60 ml" },
+                    { name: "Buffalo", icon: "🐃", adult: "30-50 ml/day", grower: "15-25 ml/day", child: "5-10 ml/day", extra: "Post-calving: 60 ml" },
+                    { name: "Horse", icon: "🐴", adult: "25-40 ml/day", grower: "12-20 ml/day", child: "5-8 ml/day", extra: "Post-exercise: 50 ml" },
+                    { name: "Camel", icon: "🐫", adult: "20-35 ml/day", grower: "10-15 ml/day", child: "4-6 ml/day", extra: "Breeding support: 40 ml" }
+                ],
+                note: "Mix with feed. For reproductive health support, use during breeding and post-calving period."
+            }
+        }, {
+            id: 15,
+            slug: "immuliv-liver",
+            name: "Immuliv",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "Supports liver function, improves digestion, and enhances overall health and productivity in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543016/products12_ezdubw.jpg",
+            details: "info.html?product=immuliv-liver",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "30-50 gm/day", grower: "15-25 gm/day", child: "5-10 gm/day", extra: "Liver issues: 50-70 gm" },
+                    { name: "Buffalo", icon: "🐃", adult: "30-50 gm/day", grower: "15-25 gm/day", child: "5-10 gm/day", extra: "Liver issues: 50-70 gm" },
+                    { name: "Horse", icon: "🐴", adult: "20-40 gm/day", grower: "10-20 gm/day", child: "5-8 gm/day", extra: "Post-illness: 40 gm" },
+                    { name: "Camel", icon: "🐫", adult: "20-35 gm/day", grower: "10-15 gm/day", child: "4-6 gm/day", extra: "Digestion support: 30 gm" }
+                ],
+                note: "Mix with feed daily. For chronic liver conditions, consult veterinarian."
+            }
+        }, {
+            id: 16,
+            slug: "vamiclo-ds-bolus",
+            name: "Vamiclo DS Bolus",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "Effectively eliminates internal parasites to improve digestion, growth, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543013/products21_lvl0xr.jpg",
+            details: "info.html?product=vamiclo-ds-bolus",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "1 bolus / 100 kg BW", grower: "1/2 bolus / 50 kg BW", child: "1/4 bolus / 25 kg BW", extra: "Repeat after 21 days" },
+                    { name: "Buffalo", icon: "🐃", adult: "1 bolus / 100 kg BW", grower: "1/2 bolus / 50 kg BW", child: "1/4 bolus / 25 kg BW", extra: "Repeat after 21 days" },
+                    { name: "Horse", icon: "🐴", adult: "1 bolus / 100 kg BW", grower: "1/2 bolus / 50 kg BW", child: "1/4 bolus / 25 kg BW", extra: "Deworming schedule" },
+                    { name: "Camel", icon: "🐫", adult: "1 bolus / 100 kg BW", grower: "1/2 bolus / 50 kg BW", child: "1/4 bolus / 25 kg BW", extra: "Seasonal deworming" }
+                ],
+                note: "Administer orally. For heavy infestations, repeat after 21 days."
+            }
+        }, {
+            id: 17,
+            slug: "jafrol-2-5kg",
+            name: "Jafrol 2.5kg",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "An iron and vitamin supplement that helps prevent anemia, improves vitality, and supports healthy growth in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543016/products30_bekcgh.jpg",
+            details: "info.html?product=jafrol-2-5kg",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "30-50 gm/day", grower: "15-25 gm/day", child: "10-15 gm/day", extra: "Pregnant: 50-70 gm" },
+                    { name: "Buffalo", icon: "🐃", adult: "30-50 gm/day", grower: "15-25 gm/day", child: "10-15 gm/day", extra: "Pregnant: 50-70 gm" },
+                    { name: "Horse", icon: "🐴", adult: "25-40 gm/day", grower: "15-20 gm/day", child: "8-12 gm/day", extra: "Athletic: 50 gm" },
+                    { name: "Camel", icon: "🐫", adult: "20-35 gm/day", grower: "10-20 gm/day", child: "5-10 gm/day", extra: "Long travel: 40 gm" }
+                ],
+                note: "Mix with feed. For anemia treatment, use higher dose as per vet advice."
+            }
+        }, {
+            id: 18,
+            slug: "sap-plus-powder",
+            name: "SAP-PLUS POWDER",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A nutritional supplement that supports faster recovery, healthy growth, and overall wellness in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543013/products1_dlopxf.jpg",
+            details: "info.html?product=sap-plus-powder",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "30-50 gm/day", grower: "15-25 gm/day", child: "5-10 gm/day", extra: "Post-illness: 60 gm" },
+                    { name: "Buffalo", icon: "🐃", adult: "30-50 gm/day", grower: "15-25 gm/day", child: "5-10 gm/day", extra: "Post-illness: 60 gm" },
+                    { name: "Horse", icon: "🐴", adult: "25-40 gm/day", grower: "12-20 gm/day", child: "5-8 gm/day", extra: "Recovery: 50 gm" },
+                    { name: "Camel", icon: "🐫", adult: "20-35 gm/day", grower: "10-15 gm/day", child: "4-6 gm/day", extra: "Stress recovery: 40 gm" }
+                ],
+                note: "Mix with feed or water. Use for 7-14 days for optimal recovery."
+            }
+        }, {
+            id: 19,
+            slug: "dp-cal-gel-300gm",
+            name: "DP Cal Gel 300gm",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A highly absorbable calcium supplement that supports bone strength, milk production, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543016/products29_ucn5oq.jpg",
+            details: "info.html?product=dp-cal-gel-300gm",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "50-80 gm/day", grower: "25-40 gm/day", child: "10-20 gm/day", extra: "Milk fever: 100 gm" },
+                    { name: "Buffalo", icon: "🐃", adult: "50-80 gm/day", grower: "25-40 gm/day", child: "10-20 gm/day", extra: "Milk fever: 100 gm" },
+                    { name: "Horse", icon: "🐴", adult: "40-60 gm/day", grower: "20-30 gm/day", child: "8-15 gm/day", extra: "Performance: 70 gm" },
+                    { name: "Camel", icon: "🐫", adult: "35-50 gm/day", grower: "15-25 gm/day", child: "8-12 gm/day", extra: "Lactating: 60 gm" }
+                ],
+                note: "Administer orally as gel. For milk fever, give immediately after calving."
+            }
+        }, {
+            id: 20,
+            slug: "dp-cal-gold-powder",
+            name: "DP Cal Gold Powder",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A nutritional supplement that helps improve milk yield, quality, and overall health in dairy animals.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543013/products4_miohxk.jpg",
+            details: "info.html?product=dp-cal-gold-powder",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "50-80 gm/day", grower: "25-40 gm/day", child: "10-20 gm/day", extra: "Milk fever: 100 gm" },
+                    { name: "Buffalo", icon: "🐃", adult: "50-80 gm/day", grower: "25-40 gm/day", child: "10-20 gm/day", extra: "Milk fever: 100 gm" },
+                    { name: "Horse", icon: "🐴", adult: "40-60 gm/day", grower: "20-30 gm/day", child: "8-15 gm/day", extra: "Performance: 70 gm" },
+                    { name: "Camel", icon: "🐫", adult: "35-50 gm/day", grower: "15-25 gm/day", child: "8-12 gm/day", extra: "Lactating: 60 gm" }
+                ],
+                note: "Mix with feed. For dairy animals, use during lactation for best results."
+            }
+        }, {
+            id: 21,
+            slug: "vamiclo-ds-15ml",
+            name: "Vamiclo DS 15ml",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "Effectively eliminates internal parasites to improve digestion, growth, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543016/products11_fifirq.jpg",
+            details: "info.html?product=vamiclo-ds-15ml",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "1 ml / 10 kg BW", grower: "As per BW", child: "As per BW", extra: "Repeat after 21 days" },
+                    { name: "Buffalo", icon: "🐃", adult: "1 ml / 10 kg BW", grower: "As per BW", child: "As per BW", extra: "Repeat after 21 days" },
+                    { name: "Horse", icon: "🐴", adult: "1 ml / 10 kg BW", grower: "As per BW", child: "As per BW", extra: "Deworming schedule" },
+                    { name: "Camel", icon: "🐫", adult: "1 ml / 10 kg BW", grower: "As per BW", child: "As per BW", extra: "Seasonal deworming" }
+                ],
+                note: "Administer orally. Shake well before use. For heavy infestations, repeat after 21 days."
+            }
+        }, {
+            id: 22,
+            slug: "dp-cal-gold-5ltr-2",
+            name: "DP Cal Gold 5ltr",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A highly absorbable calcium supplement that supports bone strength, milk production, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543013/products2_ahacth.jpg",
+            details: "info.html?product=dp-cal-gold-5ltr-2",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "50-80 ml/day", grower: "30-50 ml/day", child: "15-25 ml/day", extra: "Pregnant: 60-100 ml/day" },
+                    { name: "Buffalo", icon: "🐃", adult: "50-80 ml/day", grower: "30-50 ml/day", child: "15-25 ml/day", extra: "Pregnant: 60-100 ml/day" },
+                    { name: "Horse", icon: "🐴", adult: "40-70 ml/day", grower: "25-40 ml/day", child: "10-20 ml/day", extra: "Performance: 80-100 ml" },
+                    { name: "Camel", icon: "🐫", adult: "40-70 ml/day", grower: "20-40 ml/day", child: "10-15 ml/day", extra: "Lactating: 70-90 ml" }
+                ],
+                note: "Mix with feed or administer orally. Shake well before use."
+            }
+        }, {
+            id: 23,
+            slug: "ch-jakmin-forte-5kg",
+            name: "Ch. Jakmin Forte 5kg",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A balanced mineral supplement that supports growth, fertility, immunity, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543016/products9_fl8q0p.jpg",
+            details: "info.html?product=ch-jakmin-forte-5kg",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "50-80 gm/day", grower: "25-40 gm/day", child: "10-20 gm/day", extra: "Breeding: 80-100 gm" },
+                    { name: "Buffalo", icon: "🐃", adult: "50-80 gm/day", grower: "25-40 gm/day", child: "10-20 gm/day", extra: "Breeding: 80-100 gm" },
+                    { name: "Horse", icon: "🐴", adult: "40-60 gm/day", grower: "20-30 gm/day", child: "8-15 gm/day", extra: "Performance: 70 gm" },
+                    { name: "Camel", icon: "🐫", adult: "35-50 gm/day", grower: "15-25 gm/day", child: "8-12 gm/day", extra: "Breeding: 60 gm" }
+                ],
+                note: "Mix with feed. For breeding animals, use higher dose 2-3 weeks before breeding."
+            }
+        }, {
+            id: 24,
+            slug: "dp-cal-gold-5ltr-3",
+            name: "DP Cal Gold 5ltr",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A highly absorbable calcium supplement that supports bone strength, milk production, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543014/products25_txga6c.jpg",
+            details: "info.html?product=dp-cal-gold-5ltr-3",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "50-80 ml/day", grower: "30-50 ml/day", child: "15-25 ml/day", extra: "Pregnant: 60-100 ml/day" },
+                    { name: "Buffalo", icon: "🐃", adult: "50-80 ml/day", grower: "30-50 ml/day", child: "15-25 ml/day", extra: "Pregnant: 60-100 ml/day" },
+                    { name: "Horse", icon: "🐴", adult: "40-70 ml/day", grower: "25-40 ml/day", child: "10-20 ml/day", extra: "Performance: 80-100 ml" },
+                    { name: "Camel", icon: "🐫", adult: "40-70 ml/day", grower: "20-40 ml/day", child: "10-15 ml/day", extra: "Lactating: 70-90 ml" }
+                ],
+                note: "Mix with feed or administer orally. Shake well before use."
+            }
+        }, {
+            id: 25,
+            slug: "ch-jakmin-forte-1kg",
+            name: "Ch. Jakmin Forte 1kg",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A balanced mineral supplement that supports growth, fertility, immunity, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543015/products8_chp0mv.jpg",
+            details: "info.html?product=ch-jakmin-forte-1kg",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "50-80 gm/day", grower: "25-40 gm/day", child: "10-20 gm/day", extra: "Breeding: 80-100 gm" },
+                    { name: "Buffalo", icon: "🐃", adult: "50-80 gm/day", grower: "25-40 gm/day", child: "10-20 gm/day", extra: "Breeding: 80-100 gm" },
+                    { name: "Horse", icon: "🐴", adult: "40-60 gm/day", grower: "20-30 gm/day", child: "8-15 gm/day", extra: "Performance: 70 gm" },
+                    { name: "Camel", icon: "🐫", adult: "35-50 gm/day", grower: "15-25 gm/day", child: "8-12 gm/day", extra: "Breeding: 60 gm" }
+                ],
+                note: "Mix with feed. For breeding animals, use higher dose 2-3 weeks before breeding."
+            }
+        }, {
+            id: 26,
+            slug: "nurojak-syrup",
+            name: "Nurojak+ Syrup",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "Supports nerve health, boosts energy, and promotes overall health and productivity in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543014/products24_doyzhh.jpg",
+            details: "info.html?product=nurojak-syrup",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "20-30 ml/day", grower: "10-15 ml/day", child: "5-8 ml/day", extra: "Nerve issues: 40 ml" },
+                    { name: "Buffalo", icon: "🐃", adult: "20-30 ml/day", grower: "10-15 ml/day", child: "5-8 ml/day", extra: "Nerve issues: 40 ml" },
+                    { name: "Horse", icon: "🐴", adult: "15-25 ml/day", grower: "8-12 ml/day", child: "4-6 ml/day", extra: "Performance: 30 ml" },
+                    { name: "Camel", icon: "🐫", adult: "15-20 ml/day", grower: "8-10 ml/day", child: "3-5 ml/day", extra: "Travel fatigue: 25 ml" }
+                ],
+                note: "Mix with feed or administer orally. For severe deficiencies, consult vet for higher dose."
+            }
+        }, {
+            id: 27,
+            slug: "ok-h-500ml",
+            name: "OK-H 500ml",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A nutritional supplement that supports faster recovery, healthy growth, and overall wellness in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543015/products10_ubbfzb.jpg",
+            details: "info.html?product=ok-h-500ml",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "30-50 ml/day", grower: "15-25 ml/day", child: "5-10 ml/day", extra: "Post-recovery: 40 ml" },
+                    { name: "Buffalo", icon: "🐃", adult: "30-50 ml/day", grower: "15-25 ml/day", child: "5-10 ml/day", extra: "Post-recovery: 40 ml" },
+                    { name: "Horse", icon: "🐴", adult: "25-40 ml/day", grower: "15-20 ml/day", child: "5-8 ml/day", extra: "Athletic: 50 ml" },
+                    { name: "Camel", icon: "🐫", adult: "20-40 ml/day", grower: "10-20 ml/day", child: "5-8 ml/day", extra: "During travel: 30 ml" }
+                ],
+                note: "Mix with drinking water or feed. Use for 7-14 days for best results."
+            }
+        }, {
+            id: 28,
+            slug: "rumijak-bolus",
+            name: "Rumijak Bolus",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "Stimulates appetite, improves feed intake, and supports healthy growth and recovery in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543014/products5_otgf82.jpg",
+            details: "info.html?product=rumijak-bolus",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "1 bolus/day", grower: "1/2 bolus/day", child: "1/4 bolus/day", extra: "Recovery: 2 bolus/day" },
+                    { name: "Buffalo", icon: "🐃", adult: "1 bolus/day", grower: "1/2 bolus/day", child: "1/4 bolus/day", extra: "Recovery: 2 bolus/day" },
+                    { name: "Horse", icon: "🐴", adult: "1 bolus/day", grower: "1/2 bolus/day", child: "1/4 bolus/day", extra: "Performance: 1.5 bolus" },
+                    { name: "Camel", icon: "🐫", adult: "1 bolus/day", grower: "1/2 bolus/day", child: "1/4 bolus/day", extra: "Travel: 1 bolus" }
+                ],
+                note: "Administer orally. For appetite stimulation, use before feeding."
+            }
+        }, {
+            id: 29,
+            slug: "dp-cal-gold-20ltr",
+            name: "DP Cal Gold 20ltr",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A highly absorbable calcium supplement that supports bone strength, milk production, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543015/products7_tudvnz.jpg",
+            details: "info.html?product=dp-cal-gold-20ltr",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "50-80 ml/day", grower: "30-50 ml/day", child: "15-25 ml/day", extra: "Pregnant: 60-100 ml/day" },
+                    { name: "Buffalo", icon: "🐃", adult: "50-80 ml/day", grower: "30-50 ml/day", child: "15-25 ml/day", extra: "Pregnant: 60-100 ml/day" },
+                    { name: "Horse", icon: "🐴", adult: "40-70 ml/day", grower: "25-40 ml/day", child: "10-20 ml/day", extra: "Performance: 80-100 ml" },
+                    { name: "Camel", icon: "🐫", adult: "40-70 ml/day", grower: "20-40 ml/day", child: "10-15 ml/day", extra: "Lactating: 70-90 ml" }
+                ],
+                note: "Mix with feed or administer orally. Shake well before use."
+            }
+        }, {
+            id: 30,
+            slug: "dp-cal-powder",
+            name: "DP Cal Powder",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A highly absorbable calcium supplement that supports bone strength, milk production, and overall health in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543014/products22_xli5y4.jpg",
+            details: "info.html?product=dp-cal-powder",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "50-80 gm/day", grower: "25-40 gm/day", child: "10-20 gm/day", extra: "Milk fever: 100 gm" },
+                    { name: "Buffalo", icon: "🐃", adult: "50-80 gm/day", grower: "25-40 gm/day", child: "10-20 gm/day", extra: "Milk fever: 100 gm" },
+                    { name: "Horse", icon: "🐴", adult: "40-60 gm/day", grower: "20-30 gm/day", child: "8-15 gm/day", extra: "Performance: 70 gm" },
+                    { name: "Camel", icon: "🐫", adult: "35-50 gm/day", grower: "15-25 gm/day", child: "8-12 gm/day", extra: "Lactating: 60 gm" }
+                ],
+                note: "Mix with feed. For milk fever, give immediately after calving."
+            }
+        }, {
+            id: 31,
+            slug: "cystonil-powder",
+            name: "Cystonil Powder",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "Helps support urinary tract health and promotes faster recovery in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543015/products27_lzomug.jpg",
+            details: "info.html?product=cystonil-powder",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "30-50 gm/day", grower: "15-25 gm/day", child: "5-10 gm/day", extra: "Urinary issues: 60 gm" },
+                    { name: "Buffalo", icon: "🐃", adult: "30-50 gm/day", grower: "15-25 gm/day", child: "5-10 gm/day", extra: "Urinary issues: 60 gm" },
+                    { name: "Horse", icon: "🐴", adult: "20-40 gm/day", grower: "10-20 gm/day", child: "5-8 gm/day", extra: "Post-exercise: 50 gm" },
+                    { name: "Camel", icon: "🐫", adult: "20-35 gm/day", grower: "10-15 gm/day", child: "4-6 gm/day", extra: "Dehydration: 40 gm" }
+                ],
+                note: "Mix with feed or water. Ensure adequate water intake during treatment."
+            }
+        }, {
+            id: 32,
+            slug: "uterojak-900ml",
+            name: "Uterojak 900ml",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "Supports uterine health, promotes faster recovery after calving, and improves reproductive performance in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543014/products23_a0kvx1.jpg",
+            details: "info.html?product=uterojak-900ml",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "30-50 ml/day", grower: "15-25 ml/day", child: "5-10 ml/day", extra: "Post-calving: 60 ml" },
+                    { name: "Buffalo", icon: "🐃", adult: "30-50 ml/day", grower: "15-25 ml/day", child: "5-10 ml/day", extra: "Post-calving: 60 ml" },
+                    { name: "Horse", icon: "🐴", adult: "25-40 ml/day", grower: "12-20 ml/day", child: "5-8 ml/day", extra: "Post-exercise: 50 ml" },
+                    { name: "Camel", icon: "🐫", adult: "20-35 ml/day", grower: "10-15 ml/day", child: "4-6 ml/day", extra: "Breeding support: 40 ml" }
+                ],
+                note: "Mix with feed. For reproductive health support, use during breeding and post-calving period."
+            }
+        }, {
+            id: 33,
+            slug: "ok-h-300ml",
+            name: "OK-H 300ml",
+            category: "feed",
+            tag: "Feed Supplement",
+            icon: "fa-drumstick-bite",
+            shortDesc: "A nutritional supplement that supports faster recovery, healthy growth, and overall wellness in livestock.",
+            img: "https://res.cloudinary.com/kgqfbt78/image/upload/v1784543015/products26_kxsdu7.jpg",
+            details: "info.html?product=ok-h-300ml",
+            dosage: {
+                species: [
+                    { name: "Cow", icon: "🐄", adult: "30-50 ml/day", grower: "15-25 ml/day", child: "5-10 ml/day", extra: "Post-recovery: 40 ml" },
+                    { name: "Buffalo", icon: "🐃", adult: "30-50 ml/day", grower: "15-25 ml/day", child: "5-10 ml/day", extra: "Post-recovery: 40 ml" },
+                    { name: "Horse", icon: "🐴", adult: "25-40 ml/day", grower: "15-20 ml/day", child: "5-8 ml/day", extra: "Athletic: 50 ml" },
+                    { name: "Camel", icon: "🐫", adult: "20-40 ml/day", grower: "10-20 ml/day", child: "5-8 ml/day", extra: "During travel: 30 ml" }
+                ],
+                note: "Mix with drinking water or feed. Use for 7-14 days for best results."
+            }
+        }];
+
+        // ===================== RENDER PRODUCT DETAIL =====================
+        $(document).ready(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productSlug = urlParams.get('product');
+
+            if (!productSlug) {
+                $('#notFound').show();
+                return;
+            }
+
+            const product = products.find(p => p.slug === productSlug);
+
+            if (!product) {
+                $('#notFound').show();
+                return;
+            }
+
+            $('#breadcrumbProduct').text(product.name);
+
+            const container = $('#productDetailContainer');
+
+            const extraSpecs = [
+                "Veterinarian approved formulation",
+                "GMP certified manufacturing",
+                "Quality tested for safety & efficacy",
+                "Trusted by farmers nationwide"
+            ];
+
+            const specsHtml = extraSpecs.map(spec => `<li>${spec}</li>`).join('');
+
+            // ========== DOSAGE TABLE RENDER ==========
+            let dosageHtml = '';
+            if (product.dosage && product.dosage.species && product.dosage.species.length > 0) {
+                const rows = product.dosage.species.map(s => `
+                    <tr>
+                        <td><span class="species-icon">${s.icon || '🐾'}</span> ${s.name}</td>
+                        <td>${s.adult || '-'}</td>
+                        <td>${s.grower || '-'}</td>
+                        <td>${s.child || '-'}</td>
+                        <td>${s.extra || '-'}</td>
+                    </tr>
+                `).join('');
+
+                dosageHtml = `
+                    <div class="dosage-section">
+                        <h4><i class="bi bi-clipboard2-pulse"></i> Dosage Guide</h4>
+                        <div class="table-responsive">
+                            <table class="dosage-table">
+                                <thead>
+                                    <tr>
+                                        <th>Species</th>
+                                        <th>Adult</th>
+                                        <th>Grower</th>
+                                        <th>Child/Calf</th>
+                                        <th>Special Conditions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${rows}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="dosage-note">
+                            <i class="bi bi-info-circle"></i>
+                            <span><strong>Note:</strong> ${product.dosage.note || 'These are general guidelines. Always consult a veterinarian for exact dosage.'}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const productHtml = `
+                <div class="product-detail-card">
+                    <div class="row g-0">
+                        <div class="col-lg-6">
+                            <div class="product-image">
+                                <img src="${product.img}" alt="${product.name}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="product-info">
+                                <span class="badge-category"><i class="bi bi-tag"></i> ${product.tag}</span>
+                                <h2>${product.name}</h2>
+                                <p class="description">${product.shortDesc}</p>
+                                <div class="specs-title"><i class="bi bi-check-circle-fill" style="color:#1a7f5c;"></i> Key Benefits</div>
+                                <ul class="specs-list">
+                                    ${specsHtml}
+                                </ul>
+                                ${dosageHtml}
+                                <a href="product.html" class="back-btn">
+                                    <i class="bi bi-arrow-left"></i> Back to Products
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.html(productHtml);
+        });
+    </script>
+
+</body>
+
+</html>
+ 
