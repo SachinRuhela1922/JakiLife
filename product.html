@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,13 +30,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./assets/css/main-new.css">
-    
+
     <style>
         .error { color: red; font-size: 100%; margin-bottom: 10px; }
         .errorsub { color: red; font-size: 100%; margin-bottom: 10px; margin-top: 5px; padding-left: 5px; }
@@ -137,15 +138,17 @@
             height: 470px;
             overflow: hidden;
             position: relative;
+            background: #f0f5f9;
         }
         .product-card-img img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             transition: transform 0.6s ease;
+            padding: 12px;
         }
         .product-card:hover .product-card-img img {
-            transform: scale(1.05);
+            transform: scale(1.04);
         }
         .product-card-img .category-badge {
             position: absolute;
@@ -213,16 +216,129 @@
             margin-bottom: 10px;
         }
 
+        /* Navbar brand text */
+        .navbar-brand-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #0b2b4a;
+            letter-spacing: -0.5px;
+            margin-left: 8px;
+        }
+        .navbar-brand-text span {
+            font-weight: 300;
+            color: #1a7f5c;
+        }
+
+        /* Mobile responsiveness */
         @media (max-width: 768px) {
-            .products-hero h1 { font-size: 2.5rem; }
+            .products-hero h1 { font-size: 2.5rem; margin-top: 60px; }
             .products-hero { padding: 50px 0 40px; }
             .filter-btn { padding: 10px 20px; font-size: 0.85rem; }
-            .product-card-img { height: 180px; }
+            .product-card-img { height: 280px; }
+            .navbar-brand-text { font-size: 1.1rem; }
+            .top_stripe .row { flex-direction: column; align-items: center; text-align: center; }
+            .top_stripe .col { width: 100%; margin-bottom: 4px; }
+            .top_social { justify-content: center; }
+        }
+        @media (max-width: 576px) {
+            .product-card-img { height: 220px; }
+            .products-hero h1 { font-size: 2rem; }
+            .filter-btn { padding: 8px 16px; font-size: 0.75rem; }
+            .product-card-body h3 { font-size: 1.1rem; }
+        }
+
+        /* fix top stripe spacing */
+        .top_stripe {
+            background: #0b2b4a;
+            color: rgba(255,255,255,0.8);
+            padding: 6px 0;
+            font-size: 0.85rem;
+        }
+        .top_stripe a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .top_stripe .top_social a {
+            color: rgba(255,255,255,0.7);
+            margin-left: 12px;
+            transition: color 0.2s;
+        }
+        .top_stripe .top_social a:hover {
+            color: #7fdbbe;
+        }
+        /* footer social override */
+        .footer-section .top_social a {
+            color: #4d6a8a;
+            margin-right: 14px;
+            font-size: 1.2rem;
+        }
+        .footer-section .top_social a:hover {
+            color: #1a7f5c;
+        }
+        .footer-section .social-links img {
+            height: 24px;
+            filter: grayscale(1) brightness(0.6);
+            transition: filter 0.2s;
+        }
+        .footer-section .social-links a:hover img {
+            filter: grayscale(0) brightness(0.2);
+        }
+        .footer-section .top_social {
+            display: flex;
+            gap: 6px;
+        }
+        @media (max-width: 768px) {
+            .footer-section .top_social { justify-content: center; }
+        }
+
+        /* newsletter */
+        .newsletter-box {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 40px;
+            padding: 4px 4px 4px 18px;
+            border: 1px solid #dce5ed;
+            max-width: 280px;
+        }
+        .newsletter-box input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+        .newsletter-box span {
+            background: #1a7f5c;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .newsletter-box span:hover {
+            background: #0e5f44;
+        }
+        .footer-divider {
+            border-color: rgba(255,255,255,0.08);
+            margin: 30px 0 20px;
+        }
+        .copyright a {
+            color: #4d6a8a;
+            text-decoration: none;
+        }
+        .copyright a:hover {
+            color: #1a7f5c;
         }
     </style>
 
     <meta name="google-site-verification" content="3gvQkkv3orlV4p5shXwLZ91Ite4wdtMkKUJZbkqSrvM" />
-    
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VQBDXR9C09"></script>
     <script>
@@ -239,11 +355,11 @@
     <nav class="navbar navbar-expand-lg flex-wrap pt-0">
         <div class="top_stripe w-100">
             <div class="container">
-                <div class="row justify-content-end">
-                    <div class="col">
+                <div class="row justify-content-end align-items-center">
+                    <div class="col-md-6 col-12 text-md-start text-center">
                         <span>Support 24/7 - Call us on : <a href="tel:7534801113"> +91 7534801113</a></span>
                     </div>
-                    <div class="col">
+                    <div class="col-md-6 col-12 text-md-end text-center">
                         <div class="top_social">
                             <a href="#"><i class="bi bi-instagram"></i></a>
                             <a href="#"><i class="bi bi-facebook"></i></a>
@@ -258,6 +374,7 @@
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="https://jaklifescience.in/">
                 <img src="https://res.cloudinary.com/kgqfbt78/image/upload/v1785048362/jak_logo_glujvk.jpg" alt="Jak Life Science Logo" style="height:50px; border-radius:50%;">
+                <span class="navbar-brand-text">Jak<span>Life Science</span></span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
@@ -345,54 +462,54 @@
     </main>
 
     <!-- ===================== FOOTER ===================== -->
-    <footer class="footer-section pt-5 pb-4">
+    <footer class="footer-section pt-5 pb-4" style="background:#0b1f2f; color:#b0c8db;">
         <div class="container">
             <div class="row gy-5">
                 <div class="col-lg-4">
                     <img src="https://res.cloudinary.com/kgqfbt78/image/upload/v1785048362/jak_logo_glujvk.jpg" alt="Logo" class="mb-4" style="height:60px; border-radius:50%;">
-                    <p class="footer-text">We are a top Indian veterinary pharmaceutical company, offering affordable, quality animal health products.</p>
-                    <a href="contact.html" class="footer-btn">
+                    <p class="footer-text" style="color:#b0c8db;">We are a top Indian veterinary pharmaceutical company, offering affordable, quality animal health products.</p>
+                    <a href="contact.html" class="footer-btn" style="display:inline-flex; align-items:center; gap:8px; background:#1a7f5c; padding:8px 20px 8px 24px; border-radius:40px; color:#fff; text-decoration:none; font-weight:600; transition:0.2s;">
                         <span class="btn-text">Get In Touch</span>
-                        <span class="icon-circle"><i class="bi bi-arrow-down"></i></span>
+                        <span class="icon-circle" style="background:rgba(255,255,255,0.2); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center;"><i class="bi bi-arrow-down"></i></span>
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h5 class="footer-heading">Products</h5>
+                    <h5 class="footer-heading" style="color:#fff; font-weight:600;">Products</h5>
                     <div class="row">
                         <div class="col-6">
-                            <ul class="footer-links">
-                                <li><a href="product.html?filter=feed">Feed Supplements</a></li>
-                                <li><a href="product.html?filter=injectable">Injectables</a></li>
+                            <ul class="footer-links list-unstyled">
+                                <li><a href="product.html?filter=feed" style="color:#b0c8db; text-decoration:none;">Feed Supplements</a></li>
+                                <li><a href="product.html?filter=injectable" style="color:#b0c8db; text-decoration:none;">Injectables</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-6">
-                    <h5 class="footer-heading">Quick Links</h5>
-                    <ul class="footer-links">
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
-                        <li><a href="#">Blog</a></li>
+                    <h5 class="footer-heading" style="color:#fff; font-weight:600;">Quick Links</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="about.html" style="color:#b0c8db; text-decoration:none;">About Us</a></li>
+                        <li><a href="gallery.html" style="color:#b0c8db; text-decoration:none;">Gallery</a></li>
+                        <li><a href="contact.html" style="color:#b0c8db; text-decoration:none;">Contact Us</a></li>
+                        <li><a href="#" style="color:#b0c8db; text-decoration:none;">Blog</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3">
-                    <h5 class="footer-heading">Contact Us</h5>
-                    <p class="footer-text">CIN: U24233UP1997PLC239832</p>
-                    <p class="footer-text"><i class="bi bi-geo-alt-fill me-2"></i> Aawas Vikas, Meerut Road, Hapur, UP-245101</p>
-                    <p class="footer-text mt-3">
-                        <a href="tel:+917534801113"><i class="bi bi-telephone-fill me-2"></i> +91 7534801113</a> <br>
-                        <a href="mailto:jakremediesoffice@gmail.com"><i class="bi bi-envelope-fill me-2"></i> jakremediesoffice@gmail.com</a>
+                    <h5 class="footer-heading" style="color:#fff; font-weight:600;">Contact Us</h5>
+                    <p class="footer-text" style="color:#b0c8db;">CIN: U24233UP1997PLC239832</p>
+                    <p class="footer-text" style="color:#b0c8db;"><i class="bi bi-geo-alt-fill me-2"></i> Aawas Vikas, Meerut Road, Hapur, UP-245101</p>
+                    <p class="footer-text mt-3" style="color:#b0c8db;">
+                        <a href="tel:+917534801113" style="color:#b0c8db; text-decoration:none;"><i class="bi bi-telephone-fill me-2"></i> +91 7534801113</a> <br>
+                        <a href="mailto:jakremediesoffice@gmail.com" style="color:#b0c8db; text-decoration:none;"><i class="bi bi-envelope-fill me-2"></i> jakremediesoffice@gmail.com</a>
                     </p>
                 </div>
             </div>
             <div class="row align-items-end gy-4">
                 <div class="col-lg-8">
                     <div class="social-links">
-                        <a href="#"><img src="assets/new-design-img/instagram.svg" alt="Instagram"></a>
-                        <a href="#"><img src="assets/new-design-img/facebook.svg" alt="Facebook"></a>
-                        <a href="#"><img src="assets/new-design-img/linkedin.svg" alt="LinkedIn"></a>
-                        <a href="#"><img src="assets/new-design-img/youtube.svg" alt="youtube"></a>
+                        <a href="#"><img src="assets/new-design-img/instagram.svg" alt="Instagram" style="height:24px; filter:grayscale(1) brightness(0.6);"></a>
+                        <a href="#"><img src="assets/new-design-img/facebook.svg" alt="Facebook" style="height:24px; filter:grayscale(1) brightness(0.6);"></a>
+                        <a href="#"><img src="assets/new-design-img/linkedin.svg" alt="LinkedIn" style="height:24px; filter:grayscale(1) brightness(0.6);"></a>
+                        <a href="#"><img src="assets/new-design-img/youtube.svg" alt="youtube" style="height:24px; filter:grayscale(1) brightness(0.6);"></a>
                     </div>
                     <div class="top_social justify-content-start">
                         <a href="#"><i class="bi bi-instagram"></i></a>
@@ -402,9 +519,9 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <h5 class="footer-heading">Newsletter</h5>
+                    <h5 class="footer-heading" style="color:#fff; font-weight:600;">Newsletter</h5>
                     <div class="newsletter-box">
-                        <input type="email" placeholder="Email Address">
+                        <input type="email" placeholder="Email Address" style="background:transparent; color:#fff;">
                         <span>&#8594;</span>
                     </div>
                 </div>
@@ -412,10 +529,10 @@
             <hr class="footer-divider">
             <div class="row mt-4">
                 <div class="col-md-6">
-                    <p class="copyright">Copyright © 2026 All rights reserved. Jak Life Science</p>
+                    <p class="copyright" style="color:#7a94ab;">Copyright © 2026 All rights reserved. Jak Life Science</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p class="copyright"><a href="#">Privacy Policy</a> | <a href="#">Disclaimer Policy</a></p>
+                    <p class="copyright" style="color:#7a94ab;"><a href="#" style="color:#7a94ab;">Privacy Policy</a> | <a href="#" style="color:#7a94ab;">Disclaimer Policy</a></p>
                 </div>
             </div>
         </div>
@@ -732,16 +849,16 @@
         function renderProducts(category) {
             const container = $('#productContainer');
             const noProducts = $('#noProducts');
-            
+
             // Clear container
             container.empty();
-            
+
             // Filter products
             let filteredProducts = products;
             if (category !== 'all') {
                 filteredProducts = products.filter(p => p.category === category);
             }
-            
+
             // Show/hide no products message
             if (filteredProducts.length === 0) {
                 noProducts.show();
@@ -749,14 +866,14 @@
             } else {
                 noProducts.hide();
             }
-            
+
             // Render each product
             filteredProducts.forEach(product => {
                 const productHtml = `
                     <div class="col-lg-4 col-md-6 product-item" data-category="${product.category}">
                         <div class="product-card show">
                             <div class="product-card-img">
-                                <img src="${product.img}" alt="${product.name}">
+                                <img src="${product.img}" alt="${product.name}" loading="lazy">
                                 <span class="category-badge">${product.tag}</span>
                             </div>
                             <div class="product-card-body">
@@ -767,7 +884,7 @@
                         </div>
                     </div>
                 `;
-                
+
                 container.append(productHtml);
             });
         }
@@ -821,4 +938,5 @@
     </script>
 
 </body>
+
 </html>
